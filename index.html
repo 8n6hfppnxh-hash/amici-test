@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="et">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amici - Tallinna Parim Restoran | Fahle kvartal</title>
+    <meta
+      name="description"
+      content="Uus ja värske Itaalia restoran Fahle kvartalis"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.cdnfonts.com/css/glacial-indifference"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --color-primary: #dfc7bb;
+        --color-dark: #dfc7bb;
+      }
+
+      body {
+        font-family: "Glacial Indifference", sans-serif;
+        background-color: var(--color-dark);
+        color: #000;
+        margin: 0;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      .font-heading {
+        font-family: "Glacial Indifference", sans-serif;
+      }
+
+      .font-body {
+        font-family: "Glacial Indifference", sans-serif;
+      }
+
+      .font-glacial {
+        font-family: "Glacial Indifference", sans-serif;
+      }
+
+      .accent-italic {
+        font-family: "Glacial Indifference", sans-serif;
+        font-style: italic;
+      }
+
+      .fade-in {
+        animation: fadeIn 1.5s ease-out forwards;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+      }
+
+      @media (max-width: 1024px) {
+        .gallery-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 640px) {
+        .gallery-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Eemalda brauseri default nooled (spinners) number-inputitelt */
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      input[type="number"] {
+        -moz-appearance: textfield;
+        appearance: textfield;
+      }
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #1b2024;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #dfc7bb;
+        border-radius: 4px;
+      }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+          "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+          "react": "https://esm.sh/react@^19.2.3",
+          "react/": "https://esm.sh/react@^19.2.3/"
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="/index.css" />
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
