@@ -177,7 +177,21 @@ const TRANSLATIONS = {
       "punane-vein": "Punane Vein",
       kangem: "Kange Alkohol (4 cl)",
       alkoholivaba: "Alkoholivaba",
-      "kohv-tee": "Kohv & Tee"
+      "kohv-tee": "Kohv & Tee",
+      rose: "Rose",
+      dzinn: "Džinn",
+      toonik: "Toonik",
+      vermut: "Vermut",
+      viin: "Viin",
+      viski: "Viski",
+      "konjak-brandi": "Konjak & Brändi",
+      tekiila: "Tekiila",
+      rumm: "Rumm",
+      "likoor-grappa": "Liköör & Grappa",
+      "amici-kokteilid": "Amici Kokteilid",
+      klassikud: "Klassikud",
+      mokteilid: "Mokteilid",
+      lastemenüü: "Lastemenüü"
     },
     footer: {
       rights: "© 2024 Amici Resto & Pizzeria | Kõik õigused kaitstud",
@@ -308,7 +322,21 @@ const TRANSLATIONS = {
       "punane-vein": "Red Wine",
       kangem: "Spirits (4 cl)",
       alkoholivaba: "Non-alcoholic",
-      "kohv-tee": "Coffee & Tea"
+      "kohv-tee": "Coffee & Tea",
+      rose: "Rose Wine",
+      dzinn: "Gin",
+      toonik: "Tonic",
+      vermut: "Vermouth",
+      viin: "Vodka",
+      viski: "Whiskey",
+      "konjak-brandi": "Cognac & Brandy",
+      tekiila: "Tequila",
+      rumm: "Rum",
+      "likoor-grappa": "Liqueur & Grappa",
+      "amici-kokteilid": "Amici Cocktails",
+      klassikud: "Classics",
+      mokteilid: "Mocktails",
+      lastemenüü: "Children's Menu"
     },
     footer: {
       rights: "© 2024 Amici Resto & Pizzeria | All rights reserved",
@@ -327,6 +355,13 @@ const TRANSLATIONS = {
 
 const getMenuText = (text: string, lang: Language) => {
   if (!text) return "";
+  
+  // First check for explicit double slash separator (useful when content contains single slashes)
+  if (text.includes(" // ")) {
+    const parts = text.split(" // ");
+    return lang === 'et' ? parts[0] : parts[1];
+  }
+
   const parts = text.split(" / ");
   if (parts.length === 2) {
     return lang === 'et' ? parts[0] : parts[1];
@@ -340,99 +375,320 @@ const MENU_DATA = [
     id: "suupisted",
     category: "Suupisted",
     items: [
-      { name: "Olive", desc: "Oliivid / Olives", price: "5€" },
-      { name: "Crostini Misti", desc: "Crostinid konjakise kanamaksapateega, kitsejuustukreemiga ja suitsulõhekreemiga / Crostini with cognac & chicken liver pate, goat cheese cream and smoked salmon cream", price: "6.5€" },
-      { name: "Antipasto (sobilik kahele)", desc: "Suupistevalik / Snack platter", price: "23€" }
+      { name: "Olive", desc: "Oliivid // Olives", price: "5 €" },
+      { name: "Crostini Misti", desc: "Crostinid konjakise kanamaksapateega, kitsejuustukreemiga ja suitsulõhekreemiga // Crostini with cognac & chicken liver pate, goat cheese cream and smoked salmon cream", price: "6.5 €" },
+      { name: "Antipasto (sobilik kahele)", desc: "Suupistevalik // Snack platter", price: "23 €" }
     ]
   },
   {
     id: "eelroad",
     category: "Eelroad",
     items: [
-      { name: "Arancini", desc: "Arancinid seente, trühvli, mozzarella ja trühvli aioliga / Aranchini with mushrooms, truffle, mozzarella and truffle aioli", price: "9.5€" },
-      { name: "Carpaccio al parmigiano", desc: "Marineeritud veise välisfilee parmesani juustu, oliiviõli ja rukolaga / Marinated beef sirloin with Parmesan cheese, olive oil, and arugula", price: "14€" },
-      { name: "Cozze", desc: "Sinimerekarbid šalottsibula, küüslaugu, tšilli ja laimilehtedega kookospiimakastmes / Mussels in coconut milk sauce with shallots, garlic, chilli and lime leaves", price: "19€" },
-      { name: "Gamberi tigre grigliati", desc: "Grillitud tiigerkrevetid blanšeeritud ubadega küüslaugu-tšilli võikastmes / Grilled tiger prawns with blanched beans in garlic-chili butter sauce", price: "15.90€" },
-      { name: "Fritto Misto di Mare", desc: "Panko paneeringus frititud mereannid ürdiaioliga / Seafood fried in panko breading with herb aioli", price: "14.5€" }
+      { name: "Arancini", desc: "Arancinid seente, trühvli, mozzarella ja trühvli aioliga // Aranchini with mushrooms, truffle, mozzarella and truffle aioli", price: "9.5 €" },
+      { name: "Carpaccio al parmigiano", desc: "Marineeritud veise välisfilee parmesani juustu, oliiviõli ja rukolaga // Marinated beef sirloin with Parmesan cheese, olive oil, and arugula", price: "14 €" },
+      { name: "Cozze", desc: "Sinimerekarbid šalottsibula, küüslaugu, tšilli ja laimilehtedega kookospiimakastmes // Mussels in coconut milk sauce with shallots, garlic, chilli and lime leaves", price: "19 €" },
+      { name: "Gamberi tigre grigliati", desc: "Grillitud tiigerkrevetid blanšeeritud ubadega küüslaugu-tšilli võikastmes // Grilled tiger prawns with blanched beans in garlic-chili butter sauce", price: "15.90 €" },
+      { name: "Fritto Misto di Mare", desc: "Panko paneeringus frititud mereannid ürdiaioliga // Seafood fried in panko breading with herb aioli", price: "14.5 €" }
     ]
   },
   {
     id: "salatid",
     category: "Salatid",
     items: [
-      { name: "Insalata burrata e pomodorini", desc: "Burrata juust, kirsstomatid, röstitud peet, värske salat, pistaatsiapähklid ja balsamico kaste / Burrata cheese with cherry tomatoes, roasted beetroot, pistachios and balsamic dressing", price: "15.90€" },
-      { name: "Insalata Cesare", desc: "Rooma salat Caesari kastmes saiakrutoonide, parmesani juustu ja maisikana rinnafileega (12.50€) või grillitud hiidkrevettidega (14€)", price: "12.50€ / 14€" },
-      { name: "Insalata di formaggio di capra", desc: "Grillitud kitsejuust, värske viigimari, grillitud kõrvits, värske salat, trühvlimesi ja balsamico kaste / Grilled goat cheese, fresh figs, grilled pumpkin, fresh salad, truffle honey, and balsamic dressing", price: "15.90€" }
+      { name: "Insalata burrata e pomodorini", desc: "Burrata juust, kirsstomatid, röstitud peet, värske salat, pistaatsiapähklid ja balsamico kaste // Burrata cheese with cherry tomatoes, roasted beetroot, pistachios and balsamic dressing", price: "15.90 €" },
+      { name: "Insalata Cesare", desc: "Rooma salat Caesari kastmes saiakrutoonide, parmesani juustu ja maisikana rinnafileega (12.50 €) või grillitud hiidkrevettidega (14 €) // Roman salad with Caesar sauce, bread croutons and parmesan cheese and grilled corn chicken (12.50 €) or grilled prawns (14 €)", price: "12.50 € / 14 €" },
+      { name: "Insalata di formaggio di capra", desc: "Grillitud kitsejuust, värske viigimari, grillitud kõrvits, värske salat, trühvlimesi ja balsamico kaste // Grilled goat cheese, fresh figs, grilled pumpkin, fresh salad, truffle honey, and balsamic dressing", price: "15.90 €" }
     ]
   },
   {
     id: "pasta",
-    category: "Pasta ja Risoto",
+    category: "Pasta ja risoto",
     items: [
-      { name: "Penne all’Arrabiata", desc: "Penne pasta vürtsikas tomatikastmes värske basiiliku ja neitsioliiviõliga / Penne pasta in spicy tomato sauce with fresh basil and extra virgin olive oil", price: "8€" },
-      { name: "Spaghetti alla bolognese", desc: "Spagetid veiseraguu ja tomatikastmega / Spaghetti with beef ragu and tomato sauce", price: "13€" },
-      { name: "Spaghetti alla carbonara", desc: "Spagetid muna, Pecorino juustu ja guanciale singiga / Spaghetti with egg, Pecorino cheese and guanciale ham", price: "14.50€" },
-      { name: "Linguine alla Pesto", desc: "Linguine pasta basiilikupesto, seedermänni seemnete ja Parmigiano Reggianoga / Linguine pasta with basil pesto, pine nuts and Parmigiano Reggiano", price: "12.50€" },
-      { name: "Penne al gorgonzola con pollo", desc: "Penne maisikana filee, grillitud suvikõrvitsa ja päikesekuivatatud tomatitega / Penne pasta with corn-fed chicken, grilled zucchini and sun-dried tomatoes", price: "15.5€" },
-      { name: "Trofie allo scoglio", desc: "Trofie pasta valge veini-võikastmes mereandide, küüslaugu ja tšilliga / Trofie pasta with seafood, garlic and chili in a white wine-butter sauce", price: "16€" },
-      { name: "Linguine Shrimp Fra Diavolo", desc: "Linguine pasta vürtsikas tomati- ja tšillikastmes tiigerkrevettide ja küüslauguga / Linguine with prawns in a spicy tomato and chili pepper sauce", price: "16.5€" },
-      { name: "Lasagne alla Bolognese", desc: "Kihiline pastaroog tomatise veiseraguu ja parmesani juustuga / Layered pasta dish with tomato beef ragout and parmesan cheese", price: "16.5€" },
-      { name: "Ravioli con Fungi", desc: "Raviolid seene täidisega, krõbe crudo sink, koorene puravikukaste trühvlisalsaga / Ravioli with mushroom filling, crispy crudo ham, creamy fondant sauce", price: "16.5€" },
-      { name: "Risotto porcini e tartufo", desc: "Puravikurisoto trühvlisalsaga / Risotto with boletus and truffle salsa", price: "16.5€" }
+      { name: "Penne all’Arrabiata*", desc: "Penne pasta vürtsikas tomatikastmes värske basiiliku ja ekstra neitsioliiviõliga // Penne pasta in spicy tomato sauce with fresh basil and extra virgin olive oil", price: "8 €" },
+      { name: "Spaghetti alla bolognese", desc: "Spagetid veiseraguu ja tomatikastmega // Spaghetti with beef ragu and tomato sauce", price: "13 €" },
+      { name: "Spaghetti alla carbonara", desc: "Spagetid muna, Pecorino juustu ja guanciale singiga // Spaghetti with egg, Pecorino cheese and guanciale ham", price: "14.50 €" },
+      { name: "Linguine alla Pesto", desc: "Linguine pasta basiilikupesto, seedermänni seemnete ja Parmigiano Reggianoga // Linguine pasta with basil pesto, pine nuts and Parmigiano Reggiano", price: "12.50 €" },
+      { name: "Penne al gorgonzola con pollo", desc: "Penne pasta maisikana filee, grillitud suvikõrvitsa ja päikesekuivatatud tomatitega gorgonzola kastmes // Penne pasta with corn-fed chicken, grilled zucchini and sun-dried tomatoes in gorgonzola sauce", price: "15.5 €" },
+      { name: "Trofie allo scoglio*", desc: "Trofie pasta valge veini-võikastmes mereandide, küüslaugu ja tšilliga // Trofie pasta with seafood, garlic and chili in a white wine-butter sauce", price: "16 €" },
+      { name: "Linguine Shrimp Fra Diavolo**", desc: "Linguine pasta vürtsikas tomati- ja tšillikastmes tiigerkrevettide, küüslaugu ja värske peterselliga // Linguine with prawns stewed in a spicy tomato and chili pepper sauce, garlic, and fresh parsley", price: "16.5 €" },
+      { name: "Lasagne alla Bolognese", desc: "Kihiline pastaroog tomatise veiseraguu, parmesani juustu ja värske basiilikuga // Layered pasta dish with tomato beef ragout, parmesan cheese and fresh basil", price: "16.5 €" },
+      { name: "Ravioli con Fungi", desc: "Seenetäidisega ravioolid, krõbe crudo sink, koorene puravikukaste trühvlisalsaga // Ravioli with mushroom filling, crispy crudo ham, creamy boletus sauce with truffle salsa", price: "16.5 €" },
+      { name: "Risotto porcini e tartufo", desc: "Puravikurisoto trühvlisalsaga // Risotto with boletus and truffle salsa", price: "16.5 €" }
     ]
   },
   {
     id: "pearoad",
     category: "Pearoad",
     items: [
-      { name: "Pollo alla Milanese", desc: "Milanese maisikana seene-marsala kastmes / Corn fed chicken Milanese in mushroom marsala sauce", price: "22€" },
-      { name: "Carne di manzo", desc: "Vasardatud ja grillitud veiseliha / Hammered and grilled beef", price: "24€" },
-      { name: "Salmone grigliato", desc: "Grillitud lõhefilee spinati, päikesekuivatatud tomatite ja parmesaniga / Grilled salmon with spinach, sun-dried tomatoes and parmesan", price: "25€" },
-      { name: "Filetto di manzo", desc: "Grillitud veise sisefilee steik / Grilled beef tenderloin steak", price: "26€" },
-      { name: "Petto d’anatra alla griglia", desc: "Grillitud pardi rinnafilee (220g) / Grilled duck breast", price: "23€" },
-      { name: "Polpo alla griglia", desc: "Grillitud kaheksajalg mandelkartuli ja kirsstomatitega / Grilled octopus with almond potatoes and cherry tomatoes", price: "29€" }
+      { name: "Pollo alla Milanese", desc: "Milanese maisikana seene-marsala kastmes. Vali kõrvale meelepärane lisand // Corn fed chicken Milanese in mushroom marsala sauce. Choose your preferred side dish", price: "22 €" },
+      { name: "Carne di manzo", desc: "Vasardatud ja grillitud veiseliha. Vali kõrvale meelepärane lisand ja kaste // Hammered and grilled beef. Choose your preferred sauce and side dish", price: "24 €" },
+      { name: "Salmone grigliato", desc: "Grillitud lõhefilee spinati, päikesekuivatatud tomatite ja parmesaniga kooreses kastmes. Vali kõrvale meelepärane lisand // Grilled salmon in a cream sauce with spinach, sun-dried tomatoes and parmesan. Choose your preferred side dish", price: "25 €" },
+      { name: "Filetto di manzo", desc: "Grillitud veise sisefilee steik. Vali kõrvale meelepärane lisand ja kaste // Grilled beef tenderloin steak. Choose your preferred sauce and side dish", price: "26 €" },
+      { name: "Petto d’anatra alla griglia 220g", desc: "Grillitud pardi rinnafilee. Vali kõrvale meelepärane lisand // Grilled duck breast. Choose your preferred side dish", price: "23 €" },
+      { name: "Polpo alla griglia", desc: "Grillitud kaheksajalg mandelkartuli, roheliste ubade ja kirsstomatitega tuunikala-anšoovise kastmes // Grilled octopus with almond potatoes, green beans, and cherry tomatoes in a tuna-anchovy sauce", price: "29 €" }
+    ]
+  },
+  {
+    id: "supid",
+    category: "Supid",
+    items: [
+      { name: "Cacciucco", desc: "Tomatine mereannisupp // Tomato soup with seafood", price: "11.5 €" }
     ]
   },
   {
     id: "pitsad",
     category: "Pitsad",
-    note: "Gluteenivaba pitsapõhja puhul lisandub hinnale 7€",
+    note: "GLUTEENIVABA PITSAPÕHJA PUHUL LISANDUB HINNALE 7 € // GLUTEN-FREE PIZZA BASE ADDS 7 € TO THE PRICE",
     items: [
-      { name: "Margherita", desc: "Tomatikaste, fior di latte, värske basiilik / Tomato sauce, fior di latte, fresh basil", price: "7.90€" },
-      { name: "Cotto", desc: "Tomatikaste, fior di latte, Itaalia sink / Tomato sauce, fior di latte, Italian ham", price: "12.50€" },
-      { name: "Cesare", desc: "Fior di latte, maisikana filee, Caesari salat, Parmigiano Reggiano", price: "14€" },
-      { name: "Vesuvius", desc: "Tomatikaste, fior di latte, terav salaami, jalapeno, nduja, sriracha aioli / Spicy salami, jalapeno, nduja, sriracha aioli", price: "15€" },
-      { name: "Capricciosa", desc: "Tomatikaste, fior di latte, Itaalia sink, artišokid, seened, oliivid", price: "11.90€" },
-      { name: "Burrata", desc: "Tomatikaste, Burrata juust, kirsstomat, pistaatsiapähkel, basiilikupesto", price: "15€" },
-      { name: "Quattro formaggi", desc: "Tomatikaste, fior di latte, gorgonzola, Parmigiano, Pecorino", price: "13.50€" },
-      { name: "Diavola", desc: "Tomatikaste, scamorza, terav salaami, nduja, päikesekuivatatud tomatid", price: "13.90€" },
-      { name: "Carbonara", desc: "Mozzarella, Pecorino juust, guanciale sink, muna, must pipar", price: "13.50€" },
-      { name: "Frutti di Mare e Limone", desc: "Mereannid, küüslauk, tšilli, šhalottsibul, petersell, sidrun", price: "15€" },
-      { name: "Tartufato con crudo", desc: "Crudo sink, trühvel, grillitud kunigservik, Parmigiano reggiano", price: "15€" }
+      { name: "Pizza bianca (vegan)", desc: "Valge pitsa küüslaugu ja rosmariiniga // White pizza with garlic and rosemary", price: "5.50 €" },
+      { name: "Margherita", desc: "Tomatikaste, fior di latte, värske basiilik, oliiviõli // Tomato sauce, fior di latte, fresh basil, olive oil", price: "7.90 €" },
+      { name: "Cotto", desc: "Tomatikaste, fior di latte, Itaalia sink // Tomato sauce, fior di latte, Italian ham", price: "12.50 €" },
+      { name: "Cesare", desc: "Fior di latte, maisikana filee, Caesari salat, Parmigiano Reggiano // Fior di latte, corn chicken fillet, Caesar salad, Parmigiano Reggiano", price: "14 €" },
+      { name: "Vesuvius***", desc: "Tomatikaste, fior di latte, terav salaami, jalapeno, nduja, sriracha aioli, tšilli, basiilik, friikartul // Tomato sauce, fior di latte, spicy salami, jalapeno, nduja, sriracha aioli, chilli, basil, french fries", price: "15 €" },
+      { name: "Capricciosa", desc: "Tomatikaste, fior di latte, Itaalia sink, artišokid, seened, oliivid // Tomato sauce, fior di latte, Italian ham, artichokes, mushrooms, olives", price: "11.90 €" },
+      { name: "Burrata", desc: "Tomatikaste, Burrata juust, fior di latte, kirsstomat, pistaatsiapähkel, basiilikupesto, rukola // Burrata cheese, fior di latte, cherry tomatos, pistachio, basil pesto, arugula", price: "15 €" },
+      { name: "Quattro formaggi", desc: "Tomatikaste, fior di latte, gorgonzola, Parmigiano Reggiano, Pecorino juust // Tomato sauce, fior di latte, gorgonzola, Parmigiano Reggiano, and Pecorino cheese", price: "13.50 €" },
+      { name: "Diavola*", desc: "Tomatikaste, scamorza, terav salaami, nduja, basiilik, päikesekuivatatud tomatid // Tomato sauce, scamorza, spicy salami, nduja, basil, sun-dried tomatoes", price: "13.90 €" },
+      { name: "Carbonara", desc: "Mozzarella, Pecorino juust, guanciale sink, muna (toores munakollane), must pipar // Mozzarella, Pecorino Romano, guanciale ham, egg (raw egg), black pepper", price: "13.50 €" },
+      { name: "Frutti di Mare e Limone*", desc: "Tomatikaste, fior di latte, mereannid, küüslauk, tšilli, šhalottsibul, petersell, sidrun // Tomato sauce, fior di latte, seafood, garlic, chili, shallot, onion, parsley, lemon", price: "15 €" },
+      { name: "Tartufato con crudo", desc: "Fior di latte, crudo sink, trühvel, grillitud kunigservik, värske basiilik, trühvliõli, Parmigiano reggiano // Fior di latte, crudo ham, truffle, grilled oyster mushroom, fresh basil, truffle oil, Parmigiano reggiano", price: "15 €" }
     ]
   },
   {
     id: "magustoidud",
     category: "Magustoidud",
     items: [
-      { name: "Tiramisu", desc: "Klassikaline Itaalia magustoit", price: "6.5€" },
-      { name: "Panna cotta al limoncello", desc: "Panna cotta Limoncelloga / Panna cotta with Limoncello", price: "6.5€" },
-      { name: "Frittelle di ricotta", desc: "Ricotta pannkoogid valge šokolaadi kastme ja värskete marjadega", price: "8.5€" },
-      { name: "Sorbetto / Gelato", desc: "2 palli, küsi tänast valikut / 2 scoops, ask for selection", price: "5.5€" }
+      { name: "Tiramisu", price: "6.5 €" },
+      { name: "Sorbetto 2 palli", desc: "Küsi tänast sorbeevalikut teenindajalt // Inquire about today’s selection of sorbets with the server", price: "5.5 €" },
+      { name: "Panna cotta al limoncello", desc: "Panna cotta Limoncelloga // Panna cotta with Limoncello", price: "6.5 €" },
+      { name: "Frittelle di ricotta", desc: "Ricotta pannkoogid valge šokolaadi kastme ja värskete marjadega // Ricotta pancakes with white chocolate sauce and fresh berries", price: "8.5 €" },
+      { name: "Gelato 2 palli", desc: "Küsi tänast jäätiste valikut teenindajalt // Inquire about today’s selection of ice creams with the server", price: "5.5 €" }
+    ]
+  },
+  {
+    id: "lastemenüü",
+    category: "Lastemenüü",
+    items: [
+      { name: "Pasta di pollo", desc: "Koorene kanapasta // Creamy chicken pasta", price: "6.5 €" },
+      { name: "Pizzetta (väike pitsa) // Pizzetta (small pizza)", desc: "Tomatikaste, mozzarella ja sink, kana, lõhe või terav salaami // Tomato sauce, mozzarella and ham, chicken, salmon or spicy salami", price: "6.5 €" },
+      { name: "Nugget di pollo", desc: "Amici kananagitsad, friikartul, tomatikaste // Amici chicken tenders, french fries, tomato sauce", price: "6.5 €" }
     ]
   }
 ];
 
 const DRINKS_DATA = [
   {
+    id: "alkoholivaba",
+    category: "Alkoholivaba",
+    items: [
+      { name: "Stellar vesi / Stellar Water", desc: "mulliga / mullita - 33 cl / 70 cl // still / sparkling - 33 cl / 70 cl", price: "3.5 € / 5 €" },
+      { name: "Värskelt pressitud mahl / Freshly Squeezed Juice", desc: "apelsini / greibi - 33 cl / 50 cl // orange / grapefruit - 33 cl / 50 cl", price: "7.5 € / 8.8 €" },
+      { name: "Amici kodukali / Amici House Kvass", desc: "33 cl", price: "5.5 €" },
+      { name: "Kombucha Rudy's vaarika - basiiliku / Kombucha Rudy's Raspberry - Basil", desc: "33 cl", price: "6 €" },
+      { name: "Weihenstephaner alkoholivaba 0.4% / Weihenstephaner Non-alcoholic 0.4%", desc: "0.4%, 50 cl", price: "7 €" },
+      { name: "Mahl / Juice", desc: "apelsini / multi / õuna / ploomi / tomati - 25 cl / 50 cl // orange / multi / apple / plum / tomato - 25 cl / 50 cl", price: "3.5 € / 5 €" },
+      { name: "Amici majalimonaad / Amici House Lemonade", desc: "kirsi / sidruni-leedriõie - 50 cl / 100 cl // cherry / lemon-elderflower - 50 cl / 100 cl", price: "5.5 € / 9.5 €" },
+      { name: "Coca-Cola, Coca-Cola Zero, Fanta, Sprite", desc: "25 cl / 50 cl", price: "4 € / 6.5 €" },
+      { name: "Beck's alkoholivaba 0.3% / Beck's Non-alcoholic 0.3%", desc: "33 cl", price: "6 €" }
+    ]
+  },
+  {
+    id: "kohv-tee-matcha",
+    category: "Kohv / Tee / Matcha",
+    items: [
+      { name: "Americano", price: "4 €" },
+      { name: "Espresso / Espresso Doppio", price: "4 € / 4.5 €" },
+      { name: "Espresso macchiato", price: "4.5 €" },
+      { name: "Cappuccino / Cappuccino taimse piimaga // Cappuccino / Cappuccino with plant milk", price: "5 € / 5.5 €" },
+      { name: "Caffe Latte / Caffe Latte taimse piimaga // Caffe Latte / Caffe Latte with plant milk", price: "5 € / 5.5 €" },
+      { name: "Espresso Correto brändi / grappa // Espresso Correto brandy / grappa", price: "7.5 €" },
+      { name: "Espresso Affogato (Fior di latte jäätisega) // Espresso Affogato (with Fior di latte ice cream)", price: "8 €" },
+      { name: "Kakao / Cocoa", price: "4.5 €" },
+      { name: "Matcha Latte / Matcha Latte taimse piimaga // Matcha Latte / Matcha Latte with plant milk", price: "6 € / 6.5 €" },
+      { name: "Jääkohv / Jääkohv mandlisiirupiga / vaniljesiirupiga / karamellisiirupiga // Iced Coffee / Iced Coffee with almond / vanilla / caramel syrup", price: "6.5 € / 7 €" },
+      { name: "Jää Matcha Latte / Jää Matcha latte mangosiirupiga // Iced Matcha Latte / Iced Matcha latte with mango syrup", price: "7 € / 8 €" },
+      { name: "Tee tassiga / kannuga // Tea cup / pot", desc: "Must Assam, Hiina roheline tee, ingveritee, kibuvitsatee, puuviljaunistus, piparmünditee // Black Assam, Chinese Green Tea, Ginger Tea, Rosehip Tea, Fruit Dream, Peppermint Tea", price: "4 € / 6.5 €" }
+    ]
+  },
+  {
     id: "olu-siider",
     category: "Õlu & Siider",
     items: [
-      { name: "Birra Moretti laager 4.6%", desc: "33 cl / 50 cl", price: "5.5 € / 6.5 €" },
-      { name: "Põhjala Tume Laager 5%", desc: "33 cl / 50 cl", price: "6 € / 7.5 €" },
-      { name: "Tanker poolkuiv õunasiider 5.5%", desc: "33 cl / 50 cl", price: "5 € / 7 €" },
+      { name: "Birra Moretti laager 4.6% // Birra Moretti Lager 4.6%", desc: "33 cl / 50 cl", price: "5.5 € / 6.5 €" },
+      { name: "Põhjala Tume Laager 5% // Põhjala Dark Lager 5%", desc: "33 cl / 50 cl", price: "6 € / 7.5 €" },
+      { name: "Peroni Nastro Azzurro 0.0% (alkoholivaba) // Peroni Nastro Azzurro 0.0% (non-alcoholic)", desc: "33 cl", price: "5.5 €" },
+      { name: "Paulaner Hefe-Weissbier 0.0%", desc: "50 cl", price: "6.5 €" },
+      { name: "Tanker poolkuiv õunasiider 5.5% // Tanker Semi-Dry Apple Cider 5.5%", desc: "33 cl / 50 cl", price: "5 € / 7 €" },
+      { name: "Gin Long Drink", desc: "50 cl", price: "7.5 €" },
       { name: "A. Le Coq Premium / Special", desc: "50 cl", price: "5.9 €" },
       { name: "Galipette Rosé / Brut siider", desc: "33 cl", price: "6.5 €" }
+    ]
+  },
+  {
+    id: "mull",
+    category: "Mull",
+    items: [
+      { name: "Maschio Prosecco DOC Treviso Brut", desc: "Veneto, Itaalia - 15 cl / 75 cl // Veneto, Italy - 15 cl / 75 cl", price: "7.5 € / 37 €" },
+      { name: "Prosecco Biologico „Solicum“ Brut", desc: "Soligo, Itaalia - 75 cl // Soligo, Italy - 75 cl", price: "39 €" },
+      { name: "Luna De Murviedro Alcohol Free Sparkling", desc: "Hispaania - 75 cl // Spain - 75 cl", price: "29 €" },
+      { name: "Perlage Prosecco “Canah” DOCG", desc: "Valdobbiadene, Itaalia - 75 cl // Valdobbiadene, Italy - 75 cl", price: "44 €" },
+      { name: "Franciacorta Fratus Brut", desc: "Lombardia, Itaalia - 75 cl // Lombardy, Italy - 75 cl", price: "54 €" },
+      { name: "Cava Cu4tro Bubbles Brut DO", desc: "Hispaania - 75 cl // Spain - 75 cl", price: "46 €" },
+      { name: "Champagne Waris-Hubert „Albescent“ Grand Cru Blanc de Blancs Extra-Brut AOC", desc: "Prantsusmaa - 75 cl // France - 75 cl", price: "99 €" },
+      { name: "Champagne Deutz Brut", desc: "Prantsusmaa - 75 cl // France - 75 cl", price: "99 €" },
+      { name: "Dom Pérignon Vintage 2013", desc: "Prantsusmaa - 75 cl // France - 75 cl", price: "360 €" }
+    ]
+  },
+  {
+    id: "rose",
+    category: "Rose",
+    items: [
+      { name: "Barone Ricasoli Albia Rose", desc: "Toscana, Itaalia - 75 cl // Tuscany, Italy - 75 cl", price: "44 €" },
+      { name: "Petula Rosé ”Sélection parcellaire”", desc: "Marrenon, Luberon AOC, Prantsusmaa - 75 cl // Marrenon, Luberon AOC, France - 75 cl", price: "48 €" }
+    ]
+  },
+  {
+    id: "valge-vein",
+    category: "Valge Vein",
+    items: [
+      { name: "Pecorino, Cantina Tollo Biologico", desc: "Abruzzo, Itaalia - 15 cl / 75 cl // Abruzzo, Italy - 15 cl / 75 cl", price: "7.5 € / 37 €" },
+      { name: "Pinot Grigio, Villa Vescovile", desc: "Trentino-Alto Adige, Itaalia - 15 cl / 75 cl // Trentino-Alto Adige, Italy - 15 cl / 75 cl", price: "8.5 € / 42 €" },
+      { name: "Vermentino, Rocca delle Macie", desc: "Toscana, Itaalia - 75 cl // Tuscany, Italy - 75 cl", price: "44 €" },
+      { name: "Gavi di Gavi „Alasia“ DOCG", desc: "Araldica, Itaalia - 75 cl // Araldica, Italy - 75 cl", price: "47 €" },
+      { name: "Grüner Veltliner, Steinschaden “Löss & Stein”", desc: "Kamptal, Austria - 75 cl // Kamptal, Austria - 75 cl", price: "49 €" },
+      { name: "Sauvignon Blanc, Endless River", desc: "Marlborough, Uus-Meremaa - 75 cl // Marlborough, New Zealand - 75 cl", price: "48 €" },
+      { name: "Riesling, Schloss Saarstein, BIO", desc: "Mosel, Saksamaa - 75 cl // Mosel, Germany - 75 cl", price: "49 €" },
+      { name: "Vinho Verde Azal „Dom Diogo“ DOC", desc: "Quinta da Raza, Portugal - 75 cl // Quinta da Raza, Portugal - 75 cl", price: "44 €" },
+      { name: "Ribolla Gialla, Marco Felluga", desc: "Friuli, Itaalia - 75 cl // Friuli, Italy - 75 cl", price: "59 €" },
+      { name: "Chardonnay, Cono Sur Single Vineyard", desc: "Casablanca, Tšiili - 75 cl // Casablanca, Chile - 75 cl", price: "52 €" },
+      { name: "Chablis AOC, Garnier & Fils", desc: "Prantsusmaa - 75 cl // France - 75 cl", price: "67 €" }
+    ]
+  },
+  {
+    id: "punane-vein",
+    category: "Punane Vein",
+    items: [
+      { name: "Chianti Vernaiolo, Rocca delle Macie", desc: "Toscana, Itaalia - 15 cl / 75 cl // Tuscany, Italy - 15 cl / 75 cl", price: "7.5 € / 37 €" },
+      { name: "Primitivo, Cantina Tollo", desc: "Puglia, Itaalia - 15 cl / 75 cl // Puglia, Italy - 15 cl / 75 cl", price: "8.5 € / 42 €" },
+      { name: "Crianza, Bodegas Luis Canas", desc: "Rioja, Hispaania - 75 cl // Rioja, Spain - 75 cl", price: "48 €" },
+      { name: "Aglianico del Vulture „Sacravite“", desc: "DAngelo, Basilicata IGT, Itaalia - 75 cl // DAngelo, Basilicata IGT, Italy - 75 cl", price: "48 €" },
+      { name: "Rioja, Vina Ardanza Reserva", desc: "Hispaania - 75 cl // Spain - 75 cl", price: "69 €" },
+      { name: "Amarone, Luigi Righetti Capitel de Roari", desc: "Veneto, Itaalia - 75 cl // Veneto, Italy - 75 cl", price: "59 €" },
+      { name: "Cabernet Sauvignon “Gran Reserva”", desc: "Viña Koyle, Colchagua Valley DO, Tšiili - 75 cl // Viña Koyle, Colchagua Valley DO, Chile - 75 cl", price: "54 €" },
+      { name: "Nero d´Avola Riserva, Feudo Arancio", desc: "Sicilia DOC, Itaalia - 75 cl // Sicily DOC, Italy - 75 cl", price: "49 €" },
+      { name: "Pinot Noir, Saint Clair Origin", desc: "Marlborough, Uus-Meremaa - 75 cl // Marlborough, New Zealand - 75 cl", price: "54 €" },
+      { name: "Fontanafredda Serralunga D’Alba Barolo", desc: "Piemonte, Itaalia - 75 cl // Piedmont, Italy - 75 cl", price: "64 €" },
+      { name: "Merlot, Meerlust Estate", desc: "Stellenbosc, Lõuna-Aafrika - 75 cl // Stellenbosch, South Africa - 75 cl", price: "64 €" }
+    ]
+  },
+  {
+    id: "dzinn",
+    category: "Džinn",
+    items: [
+      { name: "Crafter’s London Dry", desc: "Eesti, 4 cl", price: "7 €" }
+    ]
+  },
+  {
+    id: "toonik",
+    category: "Toonik",
+    items: [
+      { name: "Fentimas Connoisseurs Tonic Water", desc: "20 cl", price: "4.5 €" },
+      { name: "Fever-Tree Raspberry & Rhubarb Water, Park Tonic Mango Chilli", desc: "20 cl", price: "5 €" }
+    ]
+  },
+  {
+    id: "vermut",
+    category: "Vermut",
+    items: [
+      { name: "Martini Extra Dry", desc: "Itaalia // Italy", price: "5.5 €" },
+      { name: "Martini Riserva Speciale Ambrato", desc: "Itaalia // Italy", price: "5.5 €" },
+      { name: "Martini Riserva Speciale Rubino", desc: "Itaalia // Italy", price: "5.5 €" },
+      { name: "Martini Fiero", desc: "Itaalia // Italy", price: "5.5 €" },
+      { name: "9 di Dante Inferno", desc: "Itaalia // Italy", price: "5.5 €" }
+    ]
+  },
+  {
+    id: "viin",
+    category: "Viin",
+    items: [
+      { name: "Moe Viin // Moe Vodka", desc: "Eesti, 4 cl // Estonia, 4 cl", price: "5.5 €" },
+      { name: "Hõbe Viin // Silver Vodka", desc: "Eesti, 4 cl // Estonia, 4 cl", price: "6 €" },
+      { name: "Grey Goose", desc: "Prantsusmaa, 4 cl // France, 4 cl", price: "8.5 €" }
+    ]
+  },
+  {
+    id: "viski",
+    category: "Viski",
+    items: [
+      { name: "Jameson", desc: "Iirimaa, 4 cl // Ireland, 4 cl", price: "6.5 €" },
+      { name: "Jack Daniel's", desc: "USA, 4 cl", price: "6.5 €" },
+      { name: "Woodford Reserve", desc: "USA, 4 cl", price: "8 €" }
+    ]
+  },
+  {
+    id: "konjak-brandi",
+    category: "Konjak & Brändi",
+    items: [
+      { name: "Hennessy VSOP", desc: "Prantsusmaa, 4 cl // France, 4 cl", price: "10.5 €" },
+      { name: "Remy Martin VSOP", desc: "Prantsusmaa, 4 cl // France, 4 cl", price: "8 €" },
+      { name: "Fernando de Castilla Brandy", desc: "Hispaania, 4 cl // Spain, 4 cl", price: "6 €" }
+    ]
+  },
+  {
+    id: "tekiila",
+    category: "Tekiila",
+    items: [
+      { name: "Patron Silver", desc: "Mehhiko, 4 cl // Mexico, 4 cl", price: "7.5 €" }
+    ]
+  },
+  {
+    id: "rumm",
+    category: "Rumm",
+    items: [
+      { name: "Bacardi Carta Blanca", desc: "Puerto Rico, 4 cl", price: "6 €" },
+      { name: "Diplomatico Reserva Exclusiva", desc: "Venezuela, 4 cl", price: "9.5 €" },
+      { name: "Zacapa Solera Gran Reserva", desc: "Guatemala, 4 cl", price: "7 €" }
+    ]
+  },
+  {
+    id: "likoor-grappa",
+    category: "Liköör & Grappa",
+    items: [
+      { name: "Amici käsitöö Limoncello // Amici Handmade Limoncello", desc: "4 cl", price: "6.5 €" },
+      { name: "Jägermeister", desc: "Saksamaa, 4 cl // Germany, 4 cl", price: "5.5 €" },
+      { name: "Baileys Irish Cream", desc: "Iirimaa, 4 cl // Ireland, 4 cl", price: "6 €" },
+      { name: "Meloncello Santo Spirito", desc: "Itaalia // Italy", price: "7 €" },
+      { name: "Ratafia Santo Spirito", desc: "Itaalia // Italy", price: "7 €" },
+      { name: "Cointreau", desc: "Prantsusmaa // France", price: "5 €" },
+      { name: "Vana Tallinn", desc: "Eesti // Estonia", price: "6.5 €" },
+      { name: "Grappa Di Barolo Riserva", desc: "Itaalia // Italy", price: "7 €" },
+      { name: "Grappa Santo Spirito", desc: "Itaalia // Italy", price: "7 €" },
+      { name: "Cazcabel Coffee Liqueur", desc: "Mehhiko // Mexico", price: "8 €" }
+    ]
+  },
+  {
+    id: "amici-kokteilid",
+    category: "Amici Kokteilid",
+    items: [
+      { name: "Lucia", desc: "Džinn, lavendlisiirup, munavalge, värske laimimahl // Gin, lavender syrup, egg white, fresh lime juice", price: "10.5 €" },
+      { name: "Francesco", desc: "Tekiila, Dom Benedictine, Kristallkümmel, värske laimimahl // Tequila, Dom Benedictine, Kümmel, fresh lime juice", price: "11 €" },
+      { name: "Massimo", desc: "Viski, Cointreau, virsikuliköör, ananassimahl, värske sidrunimahl, suhkrusiirup // Whiskey, Cointreau, peach liqueur, pineapple juice, fresh lemon juice, sugar syrup", price: "11.5 €" },
+      { name: "Luna", desc: "Džinn, sidrunheina ja vaarikatega infuseeritud Aperol, greibimahl, värske laimimahl, suhkrusiirup, mullivesi // Gin, lemongrass and raspberry infused Aperol, grapefruit juice, fresh lime juice, sugar syrup, sparkling water", price: "10.5 €" },
+      { name: "Tommaso", desc: "Sloe džinn, Cachaca, värske laimimahl, rosmariinisiirup, mullivesi // Sloe gin, Cachaca, fresh lime juice, rosemary syrup, sparkling water", price: "11.5 €" },
+      { name: "Alessandro", desc: "Rumm, Campari, prosecco, värske sidrunimahl, suhkrusiirup // Rum, Campari, prosecco, fresh lemon juice, sugar syrup", price: "11 €" },
+      { name: "Angelica", desc: "Rumm, Frangelico, amaretto, vahukoor // Rum, Frangelico, amaretto, whipped cream", price: "11.5 €" },
+      { name: "Sofia", desc: "Campari, Lambrusco, värske sidrunimahl, oreganosiirup // Campari, Lambrusco, fresh lemon juice, oregano syrup", price: "10.5 €" },
+      { name: "Bianca", desc: "Tekiila, Aperol, vermut, apelsini bitter, toonik // Tequila, Aperol, vermouth, orange bitters, tonic", price: "11.5 €" },
+      { name: "Miabella", desc: "Meloncello, ananassimahl, Cointreau, värske sidrunimahl // Meloncello, pineapple juice, Cointreau, fresh lemon juice", price: "11.5 €" }
+    ]
+  },
+  {
+    id: "klassikud",
+    category: "Klassikud",
+    items: [
+      { name: "Negroni", desc: "Campari, Antica Formula, džinn // Campari, Antica Formula, gin", price: "10 €" },
+      { name: "Whiskey Sour", desc: "Viski, suhkrusiirup, munavalge, värske sidrunimahl // Whiskey, sugar syrup, egg white, fresh lemon juice", price: "10 €" },
+      { name: "Espresso Martini", desc: "Viin, Cazcabel, espresso, suhkrusiirup, riivitud parmesan // Vodka, Cazcabel, espresso, sugar syrup, grated parmesan", price: "11 €" }
     ]
   },
   {
@@ -440,67 +696,16 @@ const DRINKS_DATA = [
     category: "Spritzid",
     items: [
       { name: "Aperol Spritz", desc: "Aperol, prosecco, mullivesi", price: "9.5 €" },
-      { name: "Limoncello Spritz", desc: "Limoncello, toonik", price: "9.5 €" },
-      { name: "Hugo Spritz", desc: "Leedripuu siirup, laim, prosecco, piparmünt", price: "9.5 €" }
+      { name: "Limoncello Spritz", desc: "Limoncello, toonik // Limoncello, tonic", price: "9.5 €" },
+      { name: "Hugo Spritz", desc: "Leedripuu siirup, laim, prosecco, piparmünt // Elderflower syrup, lime, prosecco, mint", price: "9.5 €" }
     ]
   },
   {
-    id: "mull",
-    category: "Mull",
+    id: "mokteilid",
+    category: "Mokteilid",
     items: [
-      { name: "Maschio Prosecco DOC Treviso Brut", desc: "15 cl / 75 cl", price: "7.5 € / 37 €" },
-      { name: "Cava Cu4tro Bubbles Brut DO", desc: "75 cl", price: "46 €" },
-      { name: "Champagne Deutz Brut", desc: "75 cl", price: "99 €" },
-      { name: "Dom Pérignon Vintage 2013", desc: "75 cl", price: "360 €" }
-    ]
-  },
-  {
-    id: "valge-vein",
-    category: "Valge Vein",
-    items: [
-      { name: "Pecorino, Cantina Tollo", desc: "15 cl / 75 cl", price: "7.5 € / 37 €" },
-      { name: "Pinot Grigio, Villa Vescovile", desc: "15 cl / 75 cl", price: "8.5 € / 42 €" },
-      { name: "Sauvignon Blanc, Endless River", desc: "75 cl", price: "48 €" }
-    ]
-  },
-  {
-    id: "punane-vein",
-    category: "Punane Vein",
-    items: [
-      { name: "Chianti Vernaiolo, Rocca delle Macie", desc: "15 cl / 75 cl", price: "7.5 € / 37 €" },
-      { name: "Primitivo, Cantina Tollo", desc: "15 cl / 75 cl", price: "8.5 € / 42 €" },
-      { name: "Barolo, Fontanafredda Serralunga", desc: "75 cl", price: "64 €" }
-    ]
-  },
-  {
-    id: "kangem",
-    category: "Kange Alkohol (4 cl)",
-    items: [
-      { name: "Hõbe Viin", desc: "Eesti", price: "6 €" },
-      { name: "Crafter’s London Dry", desc: "Džinn, Eesti", price: "7 €" },
-      { name: "Woodford Reserve", desc: "Viski, USA", price: "8 €" },
-      { name: "Remy Martin VSOP", desc: "Konjak, Prantsusmaa", price: "8 €" },
-      { name: "Patron Silver", desc: "Tekiila, Mehhiko", price: "7.5 €" },
-      { name: "Zacapa Solera Gran Reserva", desc: "Rumm, Guatemala", price: "7 €" }
-    ]
-  },
-  {
-    id: "alkoholivaba",
-    category: "Alkoholivaba",
-    items: [
-      { name: "Amici majalimonaad", desc: "50 cl / 100 cl", price: "5.5 € / 9.5 €" },
-      { name: "Värskelt pressitud mahl", desc: "33 cl", price: "7.5 €" },
-      { name: "Stellar vesi", desc: "33 cl / 70 cl", price: "3.5 € / 5 €" }
-    ]
-  },
-  {
-    id: "kohv-tee",
-    category: "Kohv & Tee",
-    items: [
-      { name: "Americano / Espresso", price: "4 €" },
-      { name: "Cappuccino / Caffe Latte", price: "5 €" },
-      { name: "Matcha Latte", price: "6 €" },
-      { name: "Tee tassiga / kannuga", price: "4 € / 6.5 €" }
+      { name: "Corsaro Spritz", desc: "Corsaro, toonik, apelsin // Corsaro, tonic, orange", price: "8.5 €" },
+      { name: "Virgin Hugo Spritz", desc: "Leedripuu siirup, värske laimimahl, toonik, piparmünt // Elderflower syrup, fresh lime juice, tonic, mint", price: "8.5 €" }
     ]
   }
 ];
@@ -801,7 +1006,7 @@ const GenericMenuView = ({ data, title, subtitle, headerImage, language }: {
               {section.items.map((item, iIdx) => (
                 <div key={iIdx} className="group cursor-default border-b border-black/5 pb-6 md:pb-10">
                   <div className="flex justify-between items-baseline mb-2 md:mb-3">
-                    <h3 className="text-lg md:text-2xl font-heading text-black group-hover:text-black/60 transition-all duration-300">{item.name}</h3>
+                    <h3 className="text-lg md:text-2xl font-heading text-black group-hover:text-black/60 transition-all duration-300">{getMenuText(item.name, language)}</h3>
                     <span className="text-base md:text-xl font-light italic text-black/80 ml-4 whitespace-nowrap">{item.price}</span>
                   </div>
                   <p className="text-sm font-light opacity-60 italic text-black leading-relaxed font-body">{getMenuText(item.desc || "", language)}</p>
